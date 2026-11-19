@@ -131,3 +131,71 @@ export function PriceDisplay({
     </div>
   );
 }
+
+export function OneClickButton({
+  onClick,
+  confirmed = false,
+  confirmedLabel = 'Ordered with 1-Click',
+  label = 'Buy now with 1-Click',
+  className = '',
+}: {
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  confirmed?: boolean;
+  confirmedLabel?: React.ReactNode;
+  label?: string;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`oneclick-btn w-full rounded-full border font-bold transition-colors cursor-pointer whitespace-nowrap select-none ${
+        confirmed
+          ? 'bg-[#067D62] text-white border-[#067D62]'
+          : 'bg-[#FFA41C] hover:bg-[#FA8900] active:bg-[#F08000] text-[#0F1111] border-[#FF8F00] shadow-[0_1px_3px_rgba(255,164,28,0.35)]'
+      } ${className}`}
+    >
+      {!confirmed && (
+        <>
+          <span className="oneclick-sheen" aria-hidden="true" />
+          <svg
+            viewBox="0 0 16 16"
+            className="oneclick-sparkle w-2.5 h-2.5 text-white/95 top-1.5 left-4"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M8 0L9.8 6.2L16 8L9.8 9.8L8 16L6.2 9.8L0 8L6.2 6.2L8 0Z" />
+          </svg>
+          <svg
+            viewBox="0 0 16 16"
+            className="oneclick-sparkle oneclick-sparkle-delay-1 w-2 h-2 text-[#FFF7D6] bottom-1.5 left-8"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M8 0L9.8 6.2L16 8L9.8 9.8L8 16L6.2 9.8L0 8L6.2 6.2L8 0Z" />
+          </svg>
+          <svg
+            viewBox="0 0 16 16"
+            className="oneclick-sparkle oneclick-sparkle-delay-2 w-2.5 h-2.5 text-white/95 top-1.5 right-5"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M8 0L9.8 6.2L16 8L9.8 9.8L8 16L6.2 9.8L0 8L6.2 6.2L8 0Z" />
+          </svg>
+          <svg
+            viewBox="0 0 16 16"
+            className="oneclick-sparkle oneclick-sparkle-delay-3 w-2 h-2 text-[#FFF7D6] bottom-1.5 right-9"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M8 0L9.8 6.2L16 8L9.8 9.8L8 16L6.2 9.8L0 8L6.2 6.2L8 0Z" />
+          </svg>
+        </>
+      )}
+      <span className="relative z-10 inline-flex items-center justify-center gap-1">
+        {confirmed ? confirmedLabel : label}
+      </span>
+    </button>
+  );
+}
+

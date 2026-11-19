@@ -24,3 +24,77 @@
   background: #c7cccc;
   border-radius: 3px;
 }
+
+@keyframes gentle-twinkle {
+  0% {
+    opacity: 0.35;
+    transform: scale(0.85) rotate(0deg);
+  }
+  100% {
+    opacity: 0.95;
+    transform: scale(1.1) rotate(12deg);
+  }
+}
+
+.oneclick-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.oneclick-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    108deg,
+    transparent 28%,
+    rgba(255, 255, 255, 0.48) 50%,
+    transparent 72%
+  );
+  transform: translateX(-125%);
+  transition: transform 0ms;
+}
+
+.oneclick-btn:hover .oneclick-sheen {
+  transform: translateX(125%);
+  transition: transform 680ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.oneclick-sparkle {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.oneclick-btn:hover .oneclick-sparkle {
+  opacity: 0.9;
+  transform: scale(1);
+  animation: gentle-twinkle 1.5s ease-in-out infinite alternate;
+}
+
+.oneclick-btn:hover .oneclick-sparkle-delay-1 {
+  animation-delay: 250ms;
+}
+
+.oneclick-btn:hover .oneclick-sparkle-delay-2 {
+  animation-delay: 500ms;
+}
+
+.oneclick-btn:hover .oneclick-sparkle-delay-3 {
+  animation-delay: 750ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oneclick-btn:hover .oneclick-sheen {
+    transition: none;
+    transform: translateX(-125%);
+  }
+  .oneclick-btn:hover .oneclick-sparkle {
+    animation: none;
+    opacity: 0.75;
+    transform: scale(1);
+  }
+}
+

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Check, Smartphone } from 'lucide-react';
 import { ColorVariant, DeliveryLocation, Product } from '../types/product';
-import { PriceDisplay, PrimeBadge, StarRating } from './AmazonPrimitives';
+import { OneClickButton, PriceDisplay, PrimeBadge, StarRating } from './AmazonPrimitives';
 
 interface ProductCardProps {
   product: Product;
@@ -163,7 +163,7 @@ export function ProductCard({
               ))}
             </div>
 
-            <div className="flex flex-col gap-1.5 min-w-[170px]">
+            <div className="flex flex-col gap-1.5 min-w-[195px]">
               <button
                 type="button"
                 onClick={handleAdd}
@@ -182,23 +182,16 @@ export function ProductCard({
                 )}
               </button>
 
-              <button
-                type="button"
+              <OneClickButton
                 onClick={handleOneClick}
-                className={`px-4 py-1.5 text-[13px] font-bold rounded-full border transition-colors cursor-pointer whitespace-nowrap ${
-                  justOrdered
-                    ? 'bg-[#067D62] text-white border-[#067D62]'
-                    : 'bg-[#FFA41C] hover:bg-[#FA8900] active:bg-[#F08000] text-[#0F1111] border-[#FF8F00]'
-                }`}
-              >
-                {justOrdered ? (
-                  <span className="inline-flex items-center justify-center gap-1">
+                confirmed={justOrdered}
+                confirmedLabel={
+                  <>
                     <Check className="w-3.5 h-3.5" /> Ordered with 1-Click
-                  </span>
-                ) : (
-                  'Buy now with 1-Click'
-                )}
-              </button>
+                  </>
+                }
+                className="py-2.5 px-4 text-[14px]"
+              />
             </div>
           </div>
         </div>
@@ -332,23 +325,16 @@ export function ProductCard({
           )}
         </button>
 
-        <button
-          type="button"
+        <OneClickButton
           onClick={handleOneClick}
-          className={`w-full py-1.5 px-3 text-[13px] font-bold rounded-full border transition-colors cursor-pointer whitespace-nowrap ${
-            justOrdered
-              ? 'bg-[#067D62] text-white border-[#067D62]'
-              : 'bg-[#FFA41C] hover:bg-[#FA8900] active:bg-[#F08000] text-[#0F1111] border-[#FF8F00]'
-          }`}
-        >
-          {justOrdered ? (
-            <span className="inline-flex items-center justify-center gap-1">
+          confirmed={justOrdered}
+          confirmedLabel={
+            <>
               <Check className="w-3.5 h-3.5" /> Ordered with 1-Click
-            </span>
-          ) : (
-            'Buy now with 1-Click'
-          )}
-        </button>
+            </>
+          }
+          className="py-2.5 px-4 text-[14px]"
+        />
       </div>
     </article>
   );

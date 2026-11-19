@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Check, MapPin, ShieldCheck, Smartphone, X } from 'lucide-react';
 import { ColorVariant, DeliveryLocation, Product } from '../types/product';
-import { PriceDisplay, PrimeBadge, StarRating } from './AmazonPrimitives';
+import { OneClickButton, PriceDisplay, PrimeBadge, StarRating } from './AmazonPrimitives';
 
 interface ProductModalProps {
   product: Product;
@@ -237,13 +237,10 @@ export function ProductModal({
                   )}
                 </button>
 
-                <button
-                  type="button"
+                <OneClickButton
                   onClick={() => onBuyNow(product, selectedVariant, selectedModel, quantity)}
-                  className="w-full py-2 px-4 rounded-full text-[13px] font-bold bg-[#FFA41C] hover:bg-[#FA8900] text-[#0F1111] border border-[#FF8F00] transition-colors cursor-pointer whitespace-nowrap"
-                >
-                  Buy now with 1-Click
-                </button>
+                  className="py-2.5 px-5 text-[14.5px]"
+                />
               </div>
 
               <div className="pt-2 border-t border-[#E7E7E7] text-[12px] text-[#565959] space-y-1">
