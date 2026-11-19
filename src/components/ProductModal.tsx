@@ -240,9 +240,9 @@ export function ProductModal({
                 <button
                   type="button"
                   onClick={() => onBuyNow(product, selectedVariant, selectedModel, quantity)}
-                  className="w-full py-2 px-4 rounded-full text-[13px] font-medium bg-[#FFA41C] hover:bg-[#FA8900] text-[#0F1111] border border-[#FF8F00] transition-colors cursor-pointer"
+                  className="w-full py-2 px-4 rounded-full text-[13px] font-bold bg-[#FFA41C] hover:bg-[#FA8900] text-[#0F1111] border border-[#FF8F00] transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Buy Now
+                  Buy now with 1-Click
                 </button>
               </div>
 

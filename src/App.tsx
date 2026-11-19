@@ -53,6 +53,7 @@ export default function App() {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [oneClickToast, setOneClickToast] = useState<OrderRecord | null>(null);
 
   const hasActiveFilters = useMemo(() => {
     return (
@@ -208,9 +209,32 @@ export default function App() {
     model: string,
     qty: number
   ) => {
-    addToCart(product, variant, model, qty);
+    const newOrder: OrderRecord = {
+      id: String(Math.floor(1000 + Math.random() * 9000)),
+      date: '18 Nov 2026',
+      total: product.price * qty,
+      items: [{ product, variant, model, quantity: qty }],
+      postalCode: location.postalCode,
+      status: 'Confirmed via 1-Click — Preparing Shipment',
+    };
+    setOrders((prev) => [newOrder, ...prev]);
     setActiveProductModal(null);
-    setIsCartOpen(true);
+    setOneClickToast(newOrder);
+    window.setTimeout(() => setOneClickToast(null), 4500);
+  };
+
+  const handleOneClickCardBuy = (product: Product, variant: ColorVariant) => {
+    const newOrder: OrderRecord = {
+      id: String(Math.floor(1000 + Math.random() * 9000)),
+      date: '18 Nov 2026',
+      total: product.price,
+      items: [{ product, variant, model: product.compatibleModels[0], quantity: 1 }],
+      postalCode: location.postalCode,
+      status: 'Confirmed via 1-Click — Preparing Shipment',
+    };
+    setOrders((prev) => [newOrder, ...prev]);
+    setOneClickToast(newOrder);
+    window.setTimeout(() => setOneClickToast(null), 4500);
   };
 
   const updateCartQty = (
@@ -500,6 +524,7 @@ export default function App() {
                     setActiveProductModal({ product: p, variant: v })
                   }
                   onAddToCart={(p, v) => addToCart(p, v)}
+                  onOneClickBuy={handleOneClickCardBuy}
                 />
               ))}
             </div>
@@ -515,6 +540,7 @@ export default function App() {
                     setActiveProductModal({ product: p, variant: v })
                   }
                   onAddToCart={(p, v) => addToCart(p, v)}
+                  onOneClickBuy={handleOneClickCardBuy}
                 />
               ))}
             </div>
@@ -683,6 +709,33 @@ export default function App() {
         orders={orders}
         onClose={() => setIsOrdersOpen(false)}
       />
+
+      {/* 1-Click Order Confirmation Toast */}
+      {oneClickToast && (
+        <div
+          role="status"
+          className="fixed bottom-4 right-4 z-50 max-w-[360px] bg-[#131921] text-white border border-[#3A4553] rounded-md shadow-xl px-4 py-3 flex items-center justify-between gap-3 text-[13px]"
+        >
+          <div className="min-w-0">
+            <p className="font-bold text-[#FF9900]">
+              1-Click Order #{oneClickToast.id} Confirmed
+            </p>
+            <p className="text-[#DDDDDD] truncate tabular-nums">
+              S${oneClickToast.total.toFixed(2)} · Deliver to {oneClickToast.postalCode}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setOneClickToast(null);
+              setIsOrdersOpen(true);
+            }}
+            className="px-3 py-1 rounded-full bg-[#FFA41C] hover:bg-[#FA8900] text-[#0F1111] font-bold text-[12px] whitespace-nowrap shrink-0 cursor-pointer"
+          >
+            View order
+          </button>
+        </div>
+      )}
     </div>
   );
 }

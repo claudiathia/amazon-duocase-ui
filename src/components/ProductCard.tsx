@@ -9,6 +9,7 @@ interface ProductCardProps {
   location: DeliveryLocation;
   onSelectProduct: (product: Product, variant: ColorVariant) => void;
   onAddToCart: (product: Product, variant: ColorVariant) => void;
+  onOneClickBuy: (product: Product, variant: ColorVariant) => void;
 }
 
 export function ProductCard({
@@ -17,10 +18,12 @@ export function ProductCard({
   location,
   onSelectProduct,
   onAddToCart,
+  onOneClickBuy,
 }: ProductCardProps) {
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
   const [imgError, setImgError] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [justOrdered, setJustOrdered] = useState(false);
 
   const variant = product.variants[selectedVariantIdx] ?? product.variants[0];
 
@@ -29,6 +32,13 @@ export function ProductCard({
     onAddToCart(product, variant);
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1400);
+  };
+
+  const handleOneClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onOneClickBuy(product, variant);
+    setJustOrdered(true);
+    window.setTimeout(() => setJustOrdered(false), 1800);
   };
 
   const renderBadge = () => {
@@ -153,23 +163,43 @@ export function ProductCard({
               ))}
             </div>
 
-            <button
-              type="button"
-              onClick={handleAdd}
-              className={`px-4 py-1.5 text-[13px] font-medium rounded-full border transition-colors cursor-pointer whitespace-nowrap ${
-                justAdded
-                  ? 'bg-[#067D62] text-white border-[#067D62]'
-                  : 'bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] border-[#FCD200]'
-              }`}
-            >
-              {justAdded ? (
-                <span className="inline-flex items-center gap-1">
-                  <Check className="w-3.5 h-3.5" /> Added to cart
-                </span>
-              ) : (
-                'Add to cart'
-              )}
-            </button>
+            <div className="flex flex-col gap-1.5 min-w-[170px]">
+              <button
+                type="button"
+                onClick={handleAdd}
+                className={`px-4 py-1.5 text-[13px] font-medium rounded-full border transition-colors cursor-pointer whitespace-nowrap ${
+                  justAdded
+                    ? 'bg-[#067D62] text-white border-[#067D62]'
+                    : 'bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] border-[#FCD200]'
+                }`}
+              >
+                {justAdded ? (
+                  <span className="inline-flex items-center justify-center gap-1">
+                    <Check className="w-3.5 h-3.5" /> Added to cart
+                  </span>
+                ) : (
+                  'Add to cart'
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={handleOneClick}
+                className={`px-4 py-1.5 text-[13px] font-bold rounded-full border transition-colors cursor-pointer whitespace-nowrap ${
+                  justOrdered
+                    ? 'bg-[#067D62] text-white border-[#067D62]'
+                    : 'bg-[#FFA41C] hover:bg-[#FA8900] active:bg-[#F08000] text-[#0F1111] border-[#FF8F00]'
+                }`}
+              >
+                {justOrdered ? (
+                  <span className="inline-flex items-center justify-center gap-1">
+                    <Check className="w-3.5 h-3.5" /> Ordered with 1-Click
+                  </span>
+                ) : (
+                  'Buy now with 1-Click'
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -282,12 +312,12 @@ export function ProductCard({
         </div>
       </div>
 
-      {/* Add to Cart Footer */}
-      <div className="px-3 pb-3 pt-1">
+      {/* Add to Cart & 1-Click Footer */}
+      <div className="px-3 pb-3 pt-1 space-y-1.5">
         <button
           type="button"
           onClick={handleAdd}
-          className={`w-full py-1.5 px-3 text-[13px] font-medium rounded-full border transition-colors cursor-pointer ${
+          className={`w-full py-1.5 px-3 text-[13px] font-medium rounded-full border transition-colors cursor-pointer whitespace-nowrap ${
             justAdded
               ? 'bg-[#067D62] text-white border-[#067D62]'
               : 'bg-[#FFD814] hover:bg-[#F7CA00] active:bg-[#F0B800] text-[#0F1111] border-[#FCD200]'
@@ -299,6 +329,24 @@ export function ProductCard({
             </span>
           ) : (
             'Add to cart'
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleOneClick}
+          className={`w-full py-1.5 px-3 text-[13px] font-bold rounded-full border transition-colors cursor-pointer whitespace-nowrap ${
+            justOrdered
+              ? 'bg-[#067D62] text-white border-[#067D62]'
+              : 'bg-[#FFA41C] hover:bg-[#FA8900] active:bg-[#F08000] text-[#0F1111] border-[#FF8F00]'
+          }`}
+        >
+          {justOrdered ? (
+            <span className="inline-flex items-center justify-center gap-1">
+              <Check className="w-3.5 h-3.5" /> Ordered with 1-Click
+            </span>
+          ) : (
+            'Buy now with 1-Click'
           )}
         </button>
       </div>
